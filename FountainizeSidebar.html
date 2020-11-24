@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <!-- Use this CSS stylesheet to ensure that add-ons styling matches the default Google Docs styles -->
+    <link href="https://ssl.gstatic.com/docs/script/css/add-ons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outline" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <?!= include('Style'); ?>
+  </head>
+  <body style="overflow-x: hidden;">
+
+    <div class="sidebar branding-below">
+    
+    <div class="block" style="text-align:center;">
+        <button class="blue flat" id="format">Format Script</button>
+    </div>
+    
+    <button type="button" class="collapsible"><i class="material-icons-outlined">menu_book</i>Instructions</button>
+    <div class="content">
+    <span class='secondary'>Write your script according to the guidelines below and click <em>Format Script</em> to style it.</span>
+    <span class='secondary'>Put each 'style' on a new line, left justified.</span>
+    <h4>Scene</h4>
+    <span class='secondary'>Start the line with "int." or "ext." (not case sensitive!) </span><br>
+    ex. <em>int. a small dark room</em>
+    <h4>Characters</h4>
+    <span class='secondary'>Write in all capital letters, with no punction at the end (can be switched off in options) </span><br>
+    ex. <em>SAMANTHA</em>
+    <h4>Dialogue</h4>
+    <span class='secondary'>A line immediately following a Character or a Paranthetical is considered dialogue. </span>
+    ex. <em>No, I don't think I'll go to the store today.</em>
+    <h4>Parenthical</h4>
+    <span class='secondary'>Start the line with a bracket </span><br>
+    ex. <em>(whispering)</em>
+    <h4>Transition</h4>
+    <span class='secondary'>End the line with "in:", "to:", or "out:" </span> <br>
+    ex. <em>FADE TO:</em>
+    <h4>Action</h4>
+    <span class='secondary'>Anything that is not formatted as above </span> <br>
+    ex. <em>A man bumps into JAMES.</em>
+    <h4>Centered</h4>
+    <span class='secondary'>Start the line with &gt; and ends with &lt; </span><br>
+    ex. <em>>THE END<</em>
+    </div>
+    
+    <button type="button" class="collapsible"><i class="material-icons-outlined">title</i>Title Page</button>
+    <div class="content title-stuff">
+        <span class='secondary'>Add a tile page when you're done - you can't format your script with the title page active.</span>
+        <h4>Title Page Information</h4>
+        <input type="text" id="tp-title" placeholder="Title" style="width: 200px;">
+        <input type="text" id="tp-subtitle" placeholder="Subtitle" style="width: 200px;">
+        <input type="text" id="tp-author" placeholder="Author" style="width: 200px;">
+        <input type="text" id="tp-contact1" placeholder="Contact line 1" style="width: 200px;">
+        <input type="text" id="tp-contact2" placeholder="Contact line 2" style="width: 200px;">
+        <input type="text" id="tp-contact3" placeholder="Contact line 3" style="width: 200px;">
+        <input type="text" id="tp-contact4" placeholder="Contact line 4" style="width: 200px;">
+        <br>
+        <button class="blue flat" id="title-page-button">Add Title Page</button>
+    </div>
+    
+    <button type="button" class="collapsible"><i class="material-icons-outlined">supervisor_account</i>Character Shortcuts</button>
+    <div class="content">
+      <span class='secondary'>Instead of writing the whole character name every time, just write the shortcut (<em>SC</em>) and Fountainize will change it to the character name.</span>
+      <div class="inline form-group char-group" id='char1'>
+        <h4><span style="width: 46px; display:inline-block;">SC</span><span style="width: 100px;display:inline-block;">Character</span></h4>
+      </div>
+      <div class="inline form-group char-group" id='char1'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char2'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char3'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char4'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char5'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char6'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char7'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char8'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char9'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char10'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char11'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char12'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char13'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char14'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+      <div class="inline form-group char-group" id='char15'>
+        <input type="text" class="charShort">
+        <input type="text" class="charLong">
+      </div>
+    </div>
+    
+    <button type="button" class="collapsible"><i class="material-icons-outlined">looks_one</i>Page Numbers</button>
+    <div class="content">
+        <p>Google Docs doesn't let us add page numbers :(</p>
+        <p>But you can do it yourself. Just go to the menu bar and click:</p>
+        <p>Insert -> Header & page number -> Page number</p>
+        <p>Choose bottom right and you're good to go!</p>
+    </div>
+    
+    <button type="button" class="collapsible"><i class="material-icons-outlined">settings</i>Options</button>
+    <div class="content">
+    <p class="small-header">Formatting</p>
+      <div>
+        <input type="checkbox" id="scene-numbers" value="sceneNumbers"> Add numbers to scene headers<br>
+      </div>
+      <div>
+        <input type="checkbox" id="endPunctuationMeansNotChar" value="formatMarginsOption" checked> Characters can't end in punctuation (helps with all-caps actions)<br>
+      </div>
+      <div>
+        <input type="checkbox" id="format-margins-option" value="formatMarginsOption" checked> Format margins and fonts<br>
+      </div>
+      
+      <br>
+      <p class="small-header">Formatting range</p>
+      <div>
+        <input type="radio" name="radio-a" id="r-whole" checked>
+        <label for="radio2">Whole Script</label>
+      </div>
+      <div>
+        <input type="radio" name="radio-a" id="r-selection">
+        <label for="radio1">Selection (known issue with scene numbers)</label>
+      </div>
+      <br>
+      <p class="small-header">Fonts and Margins</p>
+      <button class="blue" id="doc">Set up document</button>
+      <br>
+    </div>
+    
+    <button type="button" class="collapsible tooltip" id="pro-collapsible"><i class="material-icons-outlined">stars</i><span id="pro-tab-text">Upgrade to Pro</span></button>
+    <div class="content">
+    
+    <div id="free-pro-content">
+      <h4 style="margin-top: 5px">Fountainize Pro comes with:</h4>
+      <ul style="margin-top:5px;">
+      <li>Add a title page</li>
+      <li>15 character shortcuts</li>
+      <li>Remove length limit (800 elements)</li>
+      <li>Support development!</li>
+      </ul>
+      <p>Good software doesn't have to be expensive!</p>
+      <table>
+      <tr style="background:dodgerblue;">
+      <th><h4>Subscription</h4></th>
+      <th><h4>Lifetime</h4></th>
+      </tr>
+      <tr>
+      <td><strong>$10 / year</strong></td>
+      <td><strong>$20 once</strong></td>
+      </tr>
+      <tr>
+      <td><a href="https://gum.co/fountainize-sub" target="_blank"><button class="blue" id="pro-year">Upgrade to Pro!</button></a></td>
+      <td><a href="https://gum.co/fountainize-lifetime" target="_blank"><button class="blue" id="pro-forever">Upgrade to Pro!</button></a></td>
+      </tr>
+      </table>
+      <br/>
+      <h4 style="margin-top: 5px">Already bought a license?</h4>
+      <input type="text" id="license-text" name="fname" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX">
+      <button class="blue" id="license-btn">Submit</button>
+    </div>
+    <div id="pro-pro-content">
+      <h4 style="margin-top: 5px">Thanks for supporting Fountainize!</h4>
+      <p>I'm grateful for your support of this project.</p>
+      <p>Please email <a href="mailto:cathcart.brandon@gmail.com" target="_blank">cathcart.brandon@gmail.com</a> for priority support.</p>
+      <h4 style="margin-top: 5px">Your license info:</h4>
+      <p id="your-license-type">Subscription license active</p>
+      <p id="your-license-key" style="color: #bbbbbb">License key hidden</p>
+      <button class="blue" id="show-license-btn">Show</button>
+      <button class="blue" id="unlicense-btn">Unlicense</button>
+    </div>
+    <div id="footer-spacer" style="position: absolute; height: 100px"></div>
+    
+    </div>
+    
+    <br><br>
+    <div class="block" style="position: fixed; bottom: 0px; padding-bottom: 5px; background: white; width:100%" >
+      <!--<span class='secondary'>Fountainze built by <a href='https://www.brandoncathcart.com/'>Blank Creative</a></span><br>-->
+      <!--<span class='secondary'>Version 10</span><br>
+      <!--<span class='secondary' onClick>Full changelog</span><br>-->
+      <!--<span class='secondary'>Inspired by <a href='https://fountain.io/'>Fountain</a></span><br>-->
+      <a style='font-size: 11px;' href='https://forms.gle/r2pKhhteiR6oAWgy7'  target="_blank">Report a bug / Request a feature</a>
+    </div>
+
+<!-- Load the jQuery library from the Google CDN -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<?!= include('Javascript'); ?>
+  </body>
+</html>

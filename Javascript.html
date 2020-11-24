@@ -1,0 +1,363 @@
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+var titlePageActive;
+
+for (i = 0; i < coll.length; i++) {
+	coll[i].addEventListener("click", function () {
+		this.classList.toggle("active");
+		var content = this.nextElementSibling;
+		if (content.style.display === "block") {
+			content.style.display = "none";
+		} else {
+			content.style.display = "block";
+		}
+	});
+}
+
+var chars = [];
+var roI;
+var licenseValid = false;
+
+// Format the document
+$("#format").click(function () {
+	// If title page is active, take it off
+	if (titlePageActive) {
+		google.script.run.removeTitlePage();
+		$("#title-page-button").removeClass("red").addClass("blue");
+		$("#format").removeClass("red").addClass("blue");
+		$("#title-page-button").text("Add Title Page");
+		$("#format").text("Format Script");
+		titlePageActive = !titlePageActive;
+        google.script.run.storeSettings("titlePageActive", titlePageActive);
+		return;
+	}
+
+	// Determine if whole document or just selection
+	const type = $("#r-selection").is(":checked") ? "selection" : "whole";
+	// Determine whether scene numbers need to be added
+	const sceneNumbers = $("#scene-numbers").is(":checked");
+    // Determine whether characters can have puncutation at end
+	const endPunctuationMeansNotChar = $("#endPunctuationMeansNotChar").is(":checked");
+    // Determine whether to also format fonts/margins
+    const autoFontsMargins = $("#format-margins-option").is(":checked");
+	// Show loading symbol
+	document.getElementById("format").innerHTML =
+		"<i class='material-icons' id='rotate'>cached</i>";
+	var angle = 0;
+	roI = setInterval(function () {
+		var circle = document.getElementById("rotate");
+		angle += 5;
+		circle.style.transform = "rotate(" + angle + "deg)";
+		if (angle === 10) {
+			circle.style.display = "inherit";
+		}
+	}, 30);
+
+	// Get title page info
+	var tpInfo = {
+		title: document.getElementById("tp-title").value,
+		subtitle: document.getElementById("tp-subtitle").value,
+		author: document.getElementById("tp-author").value,
+		contact1: document.getElementById("tp-contact1").value,
+		contact2: document.getElementById("tp-contact2").value,
+		contact3: document.getElementById("tp-contact3").value,
+		contact4: document.getElementById("tp-contact4").value,
+	};
+
+	// generate charList
+	var charList = [];
+	var charMax = licenseValid ? 16 : 6;
+	for (var i = 1; i < charMax; i++) {
+		var charObj = {};
+        const domValue = document.querySelector("#char" + i + " .charShort").value;
+		if (domValue !== "" && domValue !== "-") {
+			charObj.sh = document
+				.querySelector("#char" + i + " .charShort")
+				.value.toUpperCase();
+			charObj.name = document
+				.querySelector("#char" + i + " .charLong")
+				.value.toUpperCase();
+			charList.push(charObj);
+		}
+	}
+
+	google.script.run
+		.withSuccessHandler(charsReceived)
+		.getCharsFromDOM(charList);
+
+	function charsReceived() {
+		google.script.run
+			.withSuccessHandler(formatComplete)
+			.convert(type, sceneNumbers, autoFontsMargins, endPunctuationMeansNotChar);
+	}
+});
+
+function formatComplete(charList) {
+	clearInterval(roI);
+	if (!titlePageActive) {
+		document.getElementById("format").innerHTML = "Format Script";
+	}
+
+	const clLength = charList.length;
+	for (i = 1; i < 16; i++) {
+		//        alert(i);
+		if (i <= clLength) {
+			document.querySelector("#char" + i + " .charShort").value =
+				charList[i - 1].sh;
+			document.querySelector("#char" + i + " .charLong").value =
+				charList[i - 1].name;
+		} else {
+			if (i < 6) {
+				document.querySelector("#char" + i + " .charShort").value = "";
+				document.querySelector("#char" + i + " .charLong").value = "";
+			} else {
+				document.querySelector(
+					"#char" + i + " .charShort"
+				).value = licenseValid ? "" : "-";
+				document.querySelector(
+					"#char" + i + " .charLong"
+				).value = licenseValid ? "" : "Upgrade for more";
+			}
+		}
+	}
+}
+
+$("#doc").click(function () {
+	google.script.run.docSetUp();
+});
+
+$("#license-btn").click(function () {
+	var license = document.querySelector("#license-text").value;
+	if (license != "") {
+		google.script.run
+			.withSuccessHandler(alertLicenseStatus)
+			.checkLicenseKey(license);
+	}
+});
+
+$("#unlicense-btn").click(function () {
+google.script.run
+.withSuccessHandler(removeLicenseAlert)
+.removeLicense();
+});
+
+$("#show-license-btn").click(function () {
+google.script.run.withSuccessHandler(showLicense).getLicense();
+});
+
+function showLicense(license){
+if(license){
+var jsonLicense = JSON.parse(license)
+console.log(jsonLicense);
+   document.querySelector("#your-license-key").innerHTML = jsonLicense.license_key;
+}
+}
+
+
+$("#title-page-button").click(function () {
+	if (titlePageActive) {
+		google.script.run.removeTitlePage();
+		$("#title-page-button").removeClass("red").addClass("blue");
+		$("#format").removeClass("red").addClass("blue");
+		$("#title-page-button").text("Add Title Page");
+		$("#format").text("Format Script");
+	} else {
+		var tpInfo = {
+			title: document.getElementById("tp-title").value,
+			subtitle: document.getElementById("tp-subtitle").value,
+			author: document.getElementById("tp-author").value,
+			contact1: document.getElementById("tp-contact1").value,
+			contact2: document.getElementById("tp-contact2").value,
+			contact3: document.getElementById("tp-contact3").value,
+			contact4: document.getElementById("tp-contact4").value,
+		};
+		google.script.run.addTitlePage(tpInfo);
+		$("#title-page-button").removeClass("blue").addClass("red");
+		$("#format").removeClass("blue").addClass("red");
+		$("#title-page-button").html("Remove Title Page");
+		$("#format").text("Remove Title Page");
+	}
+
+	titlePageActive = !titlePageActive;
+	google.script.run.storeSettings("titlePageActive", titlePageActive);
+});
+
+$("#scene-numbers").click(function () {
+	google.script.run.storeSettings(
+		"sceneNumbers",
+		$("#scene-numbers").is(":checked")
+	);
+});
+$("#format-margins-option").click(function () {
+	google.script.run.storeSettings(
+		"formatMarginsOption",
+		$("#format-margins-option").is(":checked")
+	);
+});
+$("#r-whole").click(function () {
+	google.script.run.storeSettings(
+		"formatRange",
+		"whole"
+	);
+});
+$("#r-selection").click(function () {
+	google.script.run.storeSettings(
+		"formatRange",
+		"selection"
+	);
+});
+
+// Things to run when the addon loads
+$("document").ready(function () {
+	google.script.run.withSuccessHandler(loadSettings).getSettings();
+	google.script.run.withSuccessHandler(changeDOMBasedOnLicense).isLicenseValid();
+	google.script.run.withSuccessHandler(formatComplete).getCharsFromStorage();
+
+	// Add pro animation
+	setInterval(function () {
+		$("#pro-collapsible").addClass("blue-text");
+		setTimeout(function () {
+			$("#pro-collapsible").removeClass("blue-text");
+			setTimeout(function () {
+				$("#pro-collapsible").addClass("blue-text");
+				setTimeout(function () {
+					$("#pro-collapsible").removeClass("blue-text");
+				}, 1000);
+			}, 1000);
+		}, 1000);
+	}, 1000 * 60 * 5);
+});
+
+function loadSettings(settings) {
+	if (settings) {
+		// Scene numbers
+		$("#scene-numbers").prop("checked", settings.sceneNumbers || false);
+        // Format fonts and margins
+        if(settings.hasOwnProperty('formatMarginsOption')){
+           $("#format-margins-option").prop("checked", settings.formatMarginsOption);
+        } else {
+           $("#format-margins-option").prop("checked", true);
+        }
+        // Format Range
+        if(settings.hasOwnProperty('formatRange')){
+           if(settings.formatRange == "whole"){
+              $("#r-whole").prop("checked", true);
+           } else {
+              $("#r-selection").prop("checked", true);
+           }
+        } else {
+           $("#r-whole").prop("checked", true);
+        }
+
+		// Title page and format buttons
+		titlePageActive = settings.titlePageActive || false;
+		var tpInfo = settings.tpInfo;
+		if (tpInfo) {
+			$("#tp-title").val(tpInfo.title);
+			$("#tp-subtitle").val(tpInfo.subtitle);
+			$("#tp-author").val(tpInfo.author);
+			$("#tp-contact1").val(tpInfo.contact1);
+			$("#tp-contact2").val(tpInfo.contact2);
+			$("#tp-contact3").val(tpInfo.contact3);
+			$("#tp-contact4").val(tpInfo.contact4);
+		}
+		if (titlePageActive) {
+			$("#title-page-button").removeClass("blue").addClass("red");
+			$("#format").removeClass("blue").addClass("red");
+			$("#title-page-button").text("Remove Title Page");
+			$("#format").text("Remove Title Page");
+		}
+	}
+}
+
+function changeDOMBasedOnLicense(licenseResult) {
+	licenseValid = licenseResult;
+	// Update the interface depending on whether it's a free or pro user
+	if (licenseValid) {
+		// Ensure characters are all enabled
+		$(".char-group").each(function (index) {
+			$(this).removeClass("disabled");
+            // TODO: REMOVE "UPGRADE TO PRO FOR MORE"
+		});
+        document.querySelector("#free-pro-content").style.display = "none";
+        document.querySelector("#pro-pro-content").style.display = "block";
+        document.querySelector("#pro-tab-text").innerHTML = "Your pro license";
+        
+	} else {
+		// Disable characters 6-15
+		$(".char-group").each(function (index) {
+			const id = $(this).attr("id");
+			if (Number(id.substr(4, id.length - 4)) > 5) {
+				document.querySelector("#" + id + " .charLong").value =
+					"Upgrade for more";
+				$(this).addClass("disabled");
+			}
+		});
+
+		// Title page button disable, change text
+		$("#title-page-button")
+			.text("Add Title Page (Pro)")
+			.addClass("disabled");
+        document.querySelector("#free-pro-content").style.display = "block";
+        document.querySelector("#pro-pro-content").style.display = "none";
+	}
+}
+
+function alertLicenseStatus(data) {
+if(data.success === true){
+console.log(data.purchase);
+if(data.purchase.permalink == "fountainize-sub"){
+alert("Thanks! Subscription license activated. Refresh your document to apply.");
+} else if(data.purchase.permalink == "fountainize-lifetime"){
+alert("Thanks! Lifetime license activated. Refresh your document to apply.");
+}
+} else {
+alert("Sorry! We didn't recognize that license key. Check to make sure it's correct then contact cathcart.brandon@gmail.com for support.");
+}
+}
+
+function removeLicenseAlert(){
+alert("License successfully removed!");
+}
+
+    
+</script>
+
+<script>
+// Google Payments scripts
+
+//    $('document').ready(function(){
+//        var charStr = google.script.run.getChars();
+//        console.log(charStr);
+//        if(charStr){
+//            chars = JSON.parse(charStr);
+//        for(var i = 1; i < 3; i++){
+//            var j = 0;
+//            $('#char' + i).children('input').each(function () {
+//                this.value = chars[i - 1][j];
+//                j++;
+//            });
+//        }
+//        }
+//        google.payments.inapp.getSkuDetails({
+//          'parameters': {'env': 'prod'},
+//          'success': onSkuDetails,
+//          'failure': onSkuDetailsFail
+//        });
+//    });
+//    
+//    function onSkuDetails(skus){
+//      var products = skus.response.details.inAppProducts;
+//      var count = products.length;
+//      for (var i = 0; i < count; i++) {
+//        alert(products[i].sku);
+//      }
+//    }
+//    
+//    function onSkuDetailsFail(skus){
+//    alert(JSON.stringify(skus));
+//    }
+
+
+</script>

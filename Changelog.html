@@ -1,0 +1,59 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v10] - Unreleased
+### Added
+- Option: Characters can't end with punctuation (on by default). Ending all-caps in punctuation will format as an action instead!
+- in:/out: now format as transitions
+- On update, show new features/fixes
+### Fixed
+- Issues with elAbove
+- Dialogue in all caps works just fine now
+- Title page prompt issue, saving issue fixed
+
+## [v9] - August 4, 2020
+### Added
+- Added helpful message in case of issue reading/writing document properties
+- Save selection/whole range option
+- Message reminder when no selection is made
+### Fixed
+- TypeError: el.editAsText(...).substring is not a function in Transitions
+- TypeError: pArray[i].getText is not a function
+- Added try/catch in attempt to eliminate the get/setCharsFromStorage issue
+### Changed
+- Adjusted line spacing to get standard spacing
+- Adjusted margins on Transition element
+
+## [v5] - June 14, 2020
+### Added
+- Pro version available
+- Add title page
+- New settings
+- Limitations on free version
+
+## [v4]
+### Changed
+- Check document styles every time you convert
+- Change scope to current document only
+### Fixed
+- Get body only in convert function
+- Fixed issue with first element spacing
+- Issue getting Footer when none existed
+
+## [v3] - 2019-11-17
+### Added
+- Change footer format for page numbering
+- Document is formatted automatically when it is opened
+- Indicator that Convert Markup is working
+- Page number instructions
+### Changed
+- New sidebar appearance
+- Only add line spacing - never remove. This allows people to add lines for proper page formatting
+### Fixed
+- searchPattern error
+- No selection error handling
+- Tested menus, updated help section to help users
+- Transitions are aligned right
