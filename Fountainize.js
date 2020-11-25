@@ -4,23 +4,24 @@ var pArray;
 var charList = [];
 var version = 10;
 
-var Style = function(iLeft, iRight, uCase, lAbove){
+var Style = function(iLeft, iRight, uCase, lAbove, uBold){
   this.iLeft = iLeft;
   this.iRight = iRight;
   this.uCase = uCase;
   this.lAbove = lAbove;
+  this.uBold = uBold;
 };
 
 // Format Names (left indent, right indent, uppercase, lines above)
 // https://screenwriting.io/what-is-standard-screenplay-format/
-var scene = new Style(0,0,true, 2);
-var sceneWithNumbers = new Style(-0.5,0,true, 2);
-var dialogue = new Style(1.0, 1.5, false, 0);
-var character = new Style(2.0, 0, true, 1);
-var action = new Style(0, 0, false, 1);
-var paranthetical = new Style(1.5, 1.9, false, 0);
-var transition = new Style(0, 0, true, 1);
-var centered = new Style(-0.5, 0, false,1);
+var scene = new Style(0,0,true, 2, false);
+var sceneWithNumbers = new Style(-0.5,0,true, 2, false);
+var dialogue = new Style(1.0, 1.5, false, 0, false);
+var character = new Style(2.0, 0, true, 1, false);
+var action = new Style(0, 0, false, 1, false);
+var paranthetical = new Style(1.5, 1.9, false, 0, false);
+var transition = new Style(0, 0, true, 1, false);
+var centered = new Style(-0.5, 0, false,1, false);
 
 //var scene = new Style(0,0,true, 2);
 //var sceneWithNumbers = new Style(-0.5,0,true, 2);
@@ -36,7 +37,11 @@ var firstEl;
 // MAIN FUCTION
 // Goes through entire document and determines what formatting each element should have
 // The STYLIZE function applies the formatting
-function convert(type, sceneNumbers, autoFontsMargins, endPunctuationMeansNotChar) {
+function convert(type, sceneNumbers, autoFontsMargins, endPunctuationMeansNotChar, boldSceneHeadings) {
+  console.log('awd')
+  console.log(boldSceneHeadings)
+  scene = new Style(0,0,true, 2, boldSceneHeadings);
+
   charList = getCharsFromStorage();
   const licenseValid = isLicenseValid();
   const charLimit = licenseValid ? 15 : 5;

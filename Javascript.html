@@ -37,6 +37,8 @@ $("#format").click(function () {
 	const type = $("#r-selection").is(":checked") ? "selection" : "whole";
 	// Determine whether scene numbers need to be added
 	const sceneNumbers = $("#scene-numbers").is(":checked");
+	// Determine whether the scene headings should be bold
+	const boldSceneHeadings = $("#bold-scene-headings").is(":checked");
     // Determine whether characters can have puncutation at end
 	const endPunctuationMeansNotChar = $("#endPunctuationMeansNotChar").is(":checked");
     // Determine whether to also format fonts/margins
@@ -89,7 +91,7 @@ $("#format").click(function () {
 	function charsReceived() {
 		google.script.run
 			.withSuccessHandler(formatComplete)
-			.convert(type, sceneNumbers, autoFontsMargins, endPunctuationMeansNotChar);
+			.convert(type, sceneNumbers, autoFontsMargins, endPunctuationMeansNotChar, boldSceneHeadings);
 	}
 });
 
@@ -187,6 +189,12 @@ $("#scene-numbers").click(function () {
 	google.script.run.storeSettings(
 		"sceneNumbers",
 		$("#scene-numbers").is(":checked")
+	);
+});
+$("#bold-scene-headings").click(function () {
+	google.script.run.storeSettings(
+		"boldSceneHeadings",
+		$("#bold-scene-headings").is(":checked")
 	);
 });
 $("#format-margins-option").click(function () {
