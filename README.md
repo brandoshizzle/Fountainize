@@ -37,7 +37,7 @@ Fountainize will forever have a generous free version. However, if you want to w
 
 ## Contributing
 
-I am no longer actively developing Fountainize - unfortunately I don't have much time to contribute to it. However, I have open-sourced the project so that anyone who would like to make or suggest improvements can do so! Any contributions you make are **greatly appreciated** and I will do my best to review and release them as updates in a timely manner.
+I am no longer adding new features to Fountainize - unfortunately I don't have much time to contribute to it. However, I have open-sourced the project so that anyone who would like to make or suggest improvements can do so! Any contributions you make are **greatly appreciated** and I will do my best to review and release them as updates in a timely manner.
 
 If you would like to contribute to Fountainize, please fork the repo and create a pull request.
 
